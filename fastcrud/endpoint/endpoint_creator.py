@@ -304,8 +304,8 @@ class EndpointCreator:
                 select_schema, response_key
             )
         else:
-            self.list_response_model = None # type: ignore
-            self.paginated_response_model = None # type: ignore
+            self.list_response_model = None  # type: ignore
+            self.paginated_response_model = None  # type: ignore
 
     def _validate_filter_config(self, filter_config: FilterConfig) -> None:
         model_columns = self.crud.model_col_names
@@ -600,6 +600,7 @@ class EndpointCreator:
                 methods=["POST"],
                 include_in_schema=self.include_in_schema,
                 tags=self.tags,
+                response_model=self.select_schema if self.select_schema else None,
                 dependencies=_inject_dependencies(create_deps),
                 description=f"Create a new {self.model.__name__} row in the database.",
             )
@@ -652,6 +653,7 @@ class EndpointCreator:
                 include_in_schema=self.include_in_schema,
                 tags=self.tags,
                 dependencies=_inject_dependencies(update_deps),
+                response_model=self.select_schema if self.select_schema else None,
                 description=f"Update an existing {self.model.__name__} row in the database by its primary keys: {self.primary_key_names}.",
             )
 
@@ -664,6 +666,7 @@ class EndpointCreator:
                 include_in_schema=self.include_in_schema,
                 tags=self.tags,
                 dependencies=_inject_dependencies(delete_deps),
+                response_model=self.select_schema if self.select_schema else None,
                 description=f"{delete_description} {self.model.__name__} row from the database by its primary keys: {self.primary_key_names}.",
             )
 
@@ -679,6 +682,7 @@ class EndpointCreator:
                 include_in_schema=self.include_in_schema,
                 tags=self.tags,
                 dependencies=_inject_dependencies(db_delete_deps),
+                response_model=self.select_schema if self.select_schema else None,
                 description=f"Permanently delete a {self.model.__name__} row from the database by its primary keys: {self.primary_key_names}.",
             )
 
